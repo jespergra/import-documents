@@ -18,9 +18,13 @@ const it = files.map((fileName, i) => {
   let fileContent = require(`./${filesDir}/${fileName}`);
 
   // Add new documents in collection "articles"
-  let setDoc = db
-    .collection("articles")
+  db.collection("articles")
     .doc(fileContent.uuid)
-    .set(fileContent);
-  console.log(`Document ${i} set. \x1b[36m (file: ${fileName}) \x1b[0m`);
+    .set(fileContent)
+    .then(() =>
+      console.log(`Document ${i} set. \x1b[36m (file: ${fileName}) \x1b[0m`)
+    )
+    .catch(err => {
+      console.error(err);
+    });
 });
